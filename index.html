@@ -121,20 +121,22 @@
     
     <button onclick="updateStudentList()">更新名单</button>
     <textarea id="customStudentList" placeholder="请输入学生姓名，每行一个"></textarea>
-    <h3>本项目由AI制作，谢老师维护。</h3>
+    <h3>有任何疑问或者定制请联系微信:slwl93</h3>
 
     <canvas id="confetti-canvas"></canvas>
 
     <script>
-        let students = ['熊一','刘二','张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十'];
+        let students = JSON.parse(localStorage.getItem('studentList')) || ['熊一','刘二','张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十'];
         let lastSelected = null;
         let isSelecting = false;
 
         function updateStudentList() {
             const customList = document.getElementById('customStudentList').value;
             students = customList.split('\n').filter(name => name.trim() !== '');
+            localStorage.setItem('studentList', JSON.stringify(students));
             initStudentList();
             showStudents();
+            document.getElementById('customStudentList').value = students.join('\n');
         }
 
         function initStudentList() {
@@ -168,6 +170,8 @@
             const studentNameElement = document.getElementById('studentName');
             studentNameElement.textContent = '准备开始';
             
+            const rollingAudio = new Audio('button-3.mp3');
+            
             function countdown() {
                 if (duration > 0) {
                     studentNameElement.textContent = duration;
@@ -187,6 +191,9 @@
                 const randomIndex = Math.floor(Math.random() * students.length);
                 lastSelected = items[randomIndex];
                 lastSelected.classList.add('selected');
+                
+                rollingAudio.currentTime = 0;
+                rollingAudio.play().catch(error => console.log('播放音效失败:', error));
             }, 100);
 
             setTimeout(() => {
@@ -207,8 +214,8 @@
                 origin: { y: 0.6 }
             });
             
-            const audio = new Audio('https://www.soundjay.com/buttons/sounds/button-09.mp3');
-            audio.play();
+            const finalAudio = new Audio('button-09.mp3');
+            finalAudio.play().catch(error => console.log('播放音效失败:', error));
             
             isSelecting = false;
 
@@ -218,6 +225,7 @@
         }
 
         window.onload = function() {
+            document.getElementById('customStudentList').value = students.join('\n');
             initStudentList();
             showStudents();
         };
