@@ -109,19 +109,116 @@
             z-index: 1001;
             pointer-events: none;
         }
+        .video-container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            padding-bottom: 40%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .update-section {
+            flex: 1;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .video-container {
+                padding-bottom: 56.25%;
+            }
+            .update-section {
+                width: 100%;
+            }
+        }
+        .contact-info {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        .contact-info h3 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .features {
+            color: var(--text-color);
+            font-size: 16px;
+            margin: 15px 0;
+            opacity: 0.8;
+        }
+        .contact-text {
+            color: var(--text-color);
+            font-size: 14px;
+            margin: 10px 0;
+            opacity: 0.7;
+        }
+        .qrcode {
+            width: 200px;
+            height: 200px;
+            margin-top: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        button[onclick="startRandomCall()"] {
+            margin-bottom: 40px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
     <h1>随机点名系统</h1>
+
     <div id="studentName">准备开始</div>
-    <button onclick="startRandomCall()">开始随机点名</button>
     <div class="student-list" id="studentList"></div>
+    <button onclick="startRandomCall()">开始随机点名</button>
     
+    <div class="content-wrapper">
+        <div class="video-container">
+            <iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=113559757395849&bvid=BV1JXztYUEGK&cid=27073513089&p=1" 
+                    scrolling="no" 
+                    border="0" 
+                    frameborder="no" 
+                    framespacing="0" 
+                    allowfullscreen="true">
+            </iframe>
+        </div>
+        
+        <div class="update-section">
+            <button onclick="updateStudentList()">更新名单</button>
+            <textarea id="customStudentList" placeholder="请输入学生姓名，每行一个"></textarea>
+        </div>
+    </div>
     
-    <button onclick="updateStudentList()">更新名单</button>
-    <textarea id="customStudentList" placeholder="请输入学生姓名，每行一个"></textarea>
-    <h3>有任何疑问或者定制请联系微信:slwl93</h3>
+    <div class="contact-info">
+        <h3>全新升级版本已发布，演示视频如上。</h3>
+        <p class="features">支持离线运行 | U盘便携版 | 自定义抽选模式 | 数据本地存储</p>
+        <p class="contact-text">如需完整版本请扫码联系</p>
+        <img src="qrcode.png" alt="微信二维码" class="qrcode">
+    </div>
 
     <canvas id="confetti-canvas"></canvas>
 
